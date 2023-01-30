@@ -1,11 +1,9 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpWrapperService } from './http-wrapper.service';
-
-import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GlobalErrorHandler } from './global-error-handler.service';
+import { CoreModule } from './core/core.module';
+import { GlobalErrorHandler } from './core/global-error-handler/global-error-handler.service';
 
 @NgModule({
   declarations: [
@@ -14,13 +12,12 @@ import { GlobalErrorHandler } from './global-error-handler.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    CoreModule
   ],
   providers: [{
     provide: ErrorHandler,
     useClass: GlobalErrorHandler
-  },
-    HttpWrapperService],
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

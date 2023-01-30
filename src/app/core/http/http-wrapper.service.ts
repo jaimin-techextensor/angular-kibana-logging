@@ -1,16 +1,15 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { environment } from './../../../environments/environment';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  Response
-} from '@angular/http';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { Observable } from 'rxjs';
-import { LogService } from './logger.service';
+import { LogService } from '../log/logger.service';
 
 @Injectable()
 export class HttpWrapperService {
-  constructor(private http: HttpClient, private logService: LogService) { }
+  constructor(private http: HttpClient,
+    private logService: LogService) { }
 
   get(url: string, options?: any): Observable<Response> {
     console.log('option in get', options);
@@ -43,7 +42,7 @@ export class HttpWrapperService {
         (response) => {
           this.logTime(requestBeginTime, `${url}`, method),
             observer.next(response);
-          observer.complete();
+          // observer.complete();
         },
         (error) => {
           switch (error.status) {

@@ -1,7 +1,7 @@
-import { HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { LogFields } from './log-data.interface';
 
 export type LogType = 'Error' | 'Warning' | 'Information';
@@ -45,13 +45,12 @@ export class Logger {
   }
 
   private flushBuffer() {
-    const data = this.buffer.splice(0);
+    var data = this.buffer.splice(0);
 
     if (data.length === 0) {
       return;
     }
-
-    const body = data
+    const body: any = data
       .map((entry) => this.buildLogString(entry))
       .reduce((sum, entry) => (sum += entry), '');
 
@@ -64,20 +63,25 @@ export class Logger {
     //     data
     //   });
     // } else {
-    debugger
+    const username = environment.elasticSearch.username;
+    const password = environment.elasticSearch.password;
 
     const xobj = new XMLHttpRequest();
     // tslint:disable-next-line:no-console
     xobj.onerror = (err) => console.error(err);
-    xobj.open('POST', this.logEndpoint, true);
+    xobj.open('POST', this.logEndpoint + '/_bulk', false);
+    xobj.setRequestHeader('Access-Control-Allow-Methods', '*');
+    xobj.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xobj.setRequestHeader('Access-Control-Allow-Credentials', '*');
+    xobj.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xobj.setRequestHeader('Content-Type', 'application/json');
+    xobj.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
     xobj.send(body);
-    // }
   }
 
   private buildLogString(entry: LogEntry): string {
     const index = this.buildIndexChunk();
     const body = this.buildBodyChunk(entry);
-
     return `${index}\n${body}\n`;
   }
 
@@ -138,3 +142,4 @@ export class Logger {
     };
   }
 }
+

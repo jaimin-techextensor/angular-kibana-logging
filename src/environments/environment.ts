@@ -6,8 +6,13 @@ export const environment = {
   production: false,
   env: 'Local',
   appName: 'Tech Logger',
-  endpoints : {
-    elasticSearchEndpoint: 'http://localhost:9200/'
+  endpoints: {
+    // elasticSearchEndpoint: 'http://localhost:9200'
+    elasticSearchEndpoint: 'http://94.250.201.139:9200'
+  },
+  elasticSearch: {
+    username: 'elastic',
+    password: 'cu5JyurzTZ76R6vgLAtE'
   }
 };
 

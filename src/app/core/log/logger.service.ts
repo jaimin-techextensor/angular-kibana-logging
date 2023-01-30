@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { LogFields } from './log-data.interface';
@@ -10,9 +11,9 @@ export class LogService {
   private logger: Logger | any;
   private userId: string = "0";
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.logger = new Logger(environment.appName, environment.endpoints.elasticSearchEndpoint);
-   }
+  }
 
   public logHttpInfo(info: any, elapsedTime: number, requestPath: string) {
     // TODO: create and set correlation id

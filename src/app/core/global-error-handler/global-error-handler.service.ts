@@ -1,7 +1,8 @@
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
-import { LogService } from './logger.service';
+import { ErrorHandler, Injectable, Injector } from "@angular/core";
+import { LogService } from "../log/logger.service";
 
 @Injectable()
+
 export class GlobalErrorHandler extends ErrorHandler {
   private sentencesForWarningLogging: string[] = [];
 
